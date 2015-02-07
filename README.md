@@ -32,6 +32,11 @@ The HTML for the widgets should be self contained in a small HTML file along wit
 
 Each widget must have the class 'widget' (class="widget") and should have a unique id.
 
+Each widget must describe in the HTML which events they are listening to by using "data-receives" in their HTML, as follow:
+```
+<div class="widget" data-receives="playerWidgetEvent scoreWidgetEvent" id="scoreWidget">
+```
+
 Each widget must implement it's own callback functions when receiving events. Same for triggering events. See bellow.
 
 # Emitting Events
