@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Hub demo</title>
+    
+    <script type='text/javascript' src='//code.jquery.com/jquery-2.1.0.js'></script>
+    <script type='text/javascript' src='widget-com-hub.js'></script>
+    <script type='text/javascript'>
+     
+     $(document).ready(function () {
+       
+         var hub = new widgetHub();
+      
+         
+         
+       // Click score widget btn
+       $('#scoreWidgetBtn').click(function () {
+         $("#widgetHub").trigger({
+           type: 'scoreWidgetEvent',
+           source_widget: $(this).attr("id"),
+           widget_data: {
+             teams: [{
+               id: 1,
+               name: "foo",
+               score: 1
+             }, {
+               id: 2,
+               name: "bar",
+               score: 2
+             }],
+           }
+         });
+       });
+
+       // Click player widget btn
+       $('#playerProfileWidgetBtn').click(function () {
+         $("#widgetHub").trigger({
+           type: 'playerWidgetEvent',
+           source_widget: $(this).attr("id"),
+           widget_data: {
+             timestamp: 123454657890,
+           }
+         });
+       });
+       
+       // Widgets catch events
+       $('#videoPlayerWidget').bind({
+         'scoreWidgetEvent': function (event) {
+           console.log(event.type);
+           console.log(event);
+         }
+       });
+       $('#teamProfileWidget').bind({
+         'scoreWidgetEvent': function (event) {
+           console.log(event.type);
+           console.log(event);
+         },
+         'playerWidgetEvent': function (event) {
+           console.log(event.type);
+           console.log(event);
+         }
+       });
+       $('#scoreWidget').bind({
+         'playerWidgetEvent': function (event) {
+           console.log(event.type);
+           console.log(event);
+         }
+       });
+     $("#testButton").click(function() {
+     $("#widgetHub").trigger({
+           type: 'score_event',
+           source_widget: $(this).attr("id"),
+           widget_data: {
+             teams: [{
+               id: 1,
+               name: $("#team1").val(),
+               score: $("#testscore1").val()
+             }, {
+               id: 2,
+               name: $("#team2").val(),
+               score: $("#testscore2").val()
+             }],
+           }
+       });
+     });
+     });
+    </script>
+    
+  </head>
+  
+  <body>
+<!-- Score Widget, receives score_event. If "spoil" on, result is fixed. If "spoil" off, shows
+scores as time goes by
+-->
+<script language="JavaScript">
+  $(function() {
+  $('#scoreWidget').bind({
+  'score_event': function (event) {
+  if ($("#scoreSpoil").prop("checked"))
+  {
+  $('#scoreTeam1').text(event.widget_data.teams[0].name);
+  $('#scoreTeam2').text(event.widget_data.teams[1].name);
+  $('#score1').text(event.widget_data.teams[0].score);
+  $('#score2').text(event.widget_data.teams[1].score);
+}
+}
+});
+  });
+</script>
+
+<section id="scoreWidget" data-receives="score_event" class="widget">
+  <h1>Score</h1>
+  <p id="scoreTeam1">team 1</p>
+  <p id="scoreTeam2">team 2</p>
+  <p id="score1">2</p>
+  <p id="score2">1</p>
+  <input type="checkbox" value="1" id="scoreSpoil"/><label for="scoreSpoil">No Spoilers!</label>
+</section>
+
+    <div id="widgetHub" style="display: none"></div>
+    
+    <div class="widget" data-receives="playerWidgetEvent scoreWidgetEvent" id="scoreWidget">
+      <button id="scoreWidgetBtn">I like scores</button>
+    </div>
+    <div class="widget" id="playerProfileWidget">
+      <button id="playerProfileWidgetBtn">I like players</button>
+    </div>
+    <div class="widget" data-receives="scoreWidgetEvent playerWidgetEvent" id="teamProfileWidget">
+      <button>I like lineups</button>
+    </div>
+    <div class="widget" data-receives="scoreWidgetEvent" id="videoPlayerWidget">
+      <button>I like videos</button>
+    </div>
+<form>
+  <input type="text" id="team1" placeholder="team1" />
+  <input type="text" id="team2" placeholder="team2" /><br/>
+  <input type="number" id="testscore1" placeholder="score1" />
+  <input type="number" id="testscore2" placeholder="score2" />
+  <input type="button" id="testButton" value="send" />
+</form>
+  </body>
+
+</html>
+
