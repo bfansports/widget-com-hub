@@ -3,6 +3,7 @@ How to use the HUB, Widget writing guide
 
 - In the hub page include widget_hub.js (only once)
 and the following HTML
+
     <div id="widgetHub" style="display: none"></div>
 
 - On ready create your hub
