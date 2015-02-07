@@ -17,23 +17,23 @@ Emitting Events
 
 Add JS events that will trigger HUB events
 e.g.
-$('#someWidget').click(function() {
-    $("#widgetHub").trigger({
-           type: 'score_event',
-           source_widget: $(this).attr("id"),
-           widget_data: {
-             teams: [{
-               id: 1,
-               name: "foo",
-               score: 1
-             }, {
-               id: 2,
-               name: "bar",
-               score: 2
-             }],
-           }
-       });
-});
+    $('#someWidget').click(function() {
+        $("#widgetHub").trigger({
+               type: 'score_event',
+               source_widget: $(this).attr("id"),
+              widget_data: {
+                 teams: [{
+                   id: 1,
+                   name: "foo",
+                   score: 1
+                 }, {
+                   id: 2,
+                   name: "bar",
+                   score: 2
+                 }],
+               }
+           });
+    });
 
 Be sure to have at least 3 pieces of information:
 type: Type of event (must match names for received widgetEvents)
@@ -44,13 +44,13 @@ event
 Receiving EVENTS
 
 To receive an event, insert behavior as follows:
-$('#scoreWidget').bind({
-         'score_event': function (event) {
-           // your code here
-	   console.log(event.type);
-           console.log(event);
-         }
- });
+    $('#scoreWidget').bind({
+             'score_event': function (event) {
+               // your code here
+	       console.log(event.type);
+               console.log(event);
+             }
+     });
 
 
 -----------------------------------------
